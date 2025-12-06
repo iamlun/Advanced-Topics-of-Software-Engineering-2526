@@ -18,7 +18,7 @@ class Calculator:
         return result
 
     def multiply(self, a, b):
-        result = a * b 
+        result = a * b
         self._push_stack(result)
         return result
 
@@ -43,7 +43,7 @@ class Calculator:
         return result
 
     def factorial(self, a):
-        if not float(a).is_integer():	#python語法, 把a先轉成float(ex: 3 -> 3.0), 才有辦法做is_integer()
+        if not float(a).is_integer():
              raise ValueError("Factorial is only for non-negative integers.")        
         if a < 0:
              raise ValueError("Factorial is only for non-negative integers.")
