@@ -1,0 +1,6 @@
+abs(x), 對x取絕對值, absolute value
+開根號只能接受非負數(>=0)
+階層(factorial)只能對正整數做
+	int(x), 會把浮點數強制轉成整數，但要注意這裡是需要報錯而不是自動轉成整數去做！
+==
+跳過step8, step9. 搞懂ci/cd yaml file就好
