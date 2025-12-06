@@ -31,7 +31,7 @@ class Calculator:
 
     # Advanced Operations
     def power(self, a, b):
-        result = a ** b
+        result = a**b
         self._push_stack(result)
         return result
 
@@ -44,9 +44,9 @@ class Calculator:
 
     def factorial(self, a):
         if not float(a).is_integer():
-             raise ValueError("Factorial is only for non-negative integers.")        
+            raise ValueError("Factorial is only for non-negative integers.")
         if a < 0:
-             raise ValueError("Factorial is only for non-negative integers.")
+            raise ValueError("Factorial is only for non-negative integers.")
         result = math.factorial(int(a))
         self._push_stack(result)
         return result
