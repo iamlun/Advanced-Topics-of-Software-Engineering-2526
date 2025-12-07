@@ -1,5 +1,5 @@
 name: cd
-on:
+on: #只會手動觸發
   workflow_dispatch:
 
 jobs:

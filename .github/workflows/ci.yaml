@@ -1,17 +1,17 @@
 name: ci
-on:
+on: #定義什麼情況會觸發這個workflow
   push:
     branches:
-      - main
+      - main  #當有程式碼被推到main branch時
   pull_request:
     branches:
-      - main
+      - main  #當有提交PR到main branch時
 
-  workflow_dispatch:
+  workflow_dispatch:  #允許手動觸發(在github action上頁面手動點 run workflow)
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  lint: #語法檢查、風格檢查
+    runs-on: ubuntu-latest  #在github提供的Ubuntu VM上執行
     steps:
       - uses: actions/checkout@v4
 
@@ -24,15 +24,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install flake8
-
+      #實際是透過flake8來檢查
       - name: Check Python linting
         run: |
             flake8 . --count --show-source --statistics
   test:
     runs-on: ${{ matrix.platform }}
-    needs: lint
+    needs: lint #必須在lint成功通過後才跑這個test
     strategy:
-      matrix:
+      matrix: #允許在多版本python同時測試
         platform: [ubuntu-latest]
         python-version: [ '3.8', '3.9', '3.10']
 
@@ -52,6 +52,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      #執行pytest測試 同時計算覆蓋率
       - name: Run tests with coverage
         run: |
           coverage run -m pytest
@@ -61,23 +62,25 @@ jobs:
         run: |
           coverage xml
 
+      #每個job的環境是獨立的 要讓下一個job(check-coverage)能用到這個檔案 就要上傳他
       - name: Upload coverage report artifact
         if: matrix.python-version == '3.10'
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: coverage.xml
+          name: coverage-report #給這個上傳物件(artifact)取個名稱
+          path: coverage.xml  #要上傳的實際檔案或檔案路徑
       
   check-coverage:
       runs-on: ubuntu-latest
-      needs: test
+      needs: test #等test通過後才能執行
 
       steps:
+      #把剛剛上傳的coverage.xml下載下來
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
-
+      #把覆蓋率報告上傳到Codecov雲端平台，以便視覺化顯示(這裡沒有實際操作)
       - name: Upload coverage report to Codecov
         run: |
             echo "Uploading coverage report..."
